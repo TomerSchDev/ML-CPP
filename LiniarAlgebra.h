@@ -20,4 +20,5 @@ double dot(const Vector *a, const Vector *b);
 Vector *dot(const Matrix *a, const Vector *b);
 vector<data_point *> *shuffleData(const vector<data_point *> *v);
 int argMax(const Vector *v);
+Vector* softMax(const Vector *x);
 #endif //NN_LINIARALGEBRA_H

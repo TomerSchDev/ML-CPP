@@ -4,6 +4,7 @@
 
 #include <random>
 #include <iostream>
+#include <cmath>
 #include "LiniarAlgebra.h"
 
 
@@ -35,11 +36,16 @@ vector<data_point *> *shuffleData(const vector<data_point *> *v) {
 }
 
 Matrix *multi(const Vector *a, const Vector *b) {
-    if (a->getSize() != b->getSize() || a->isTrans() == b->isTrans()) {
+    if (a->isTrans() == b->isTrans()) {
+        std::cout << "Wrong trans in multi function between vector and vector" << std::endl;
         return nullptr;
     }
-    const unsigned int size = a->getSize();
     if (a->isTrans()) {
+        if (a->getSize() != b->getSize()) {
+            std::cout << "Wrong size in multi function between vector and vector" << std::endl;
+
+        }
+        int size = a->getSize();
         //matrix 1X1
         double sum = 0;
         for (int i = 0; i < size; i++) {
@@ -49,23 +55,26 @@ Matrix *multi(const Vector *a, const Vector *b) {
         data[0] = new double[1]{sum};
         return new Matrix(1, 1, data);
     } else {
-        //matrix size X size
-        Vector **tempData = new Vector *[size];
-        for (int i = 0; i < size; i++) {
-            double *data = new double[size];
+        //matrix a.size rows X b.size cols
+        int rowSize = b->getSize();
+        int colsSize = a->getSize();
+        Vector **tempData = new Vector *[colsSize];
+        for (int i = 0; i < colsSize; i++) {
+            double *data = new double[rowSize];
             double c = (*b)[i];
-            for (int j = 0; j < size; j++) {
+            for (int j = 0; j < rowSize; j++) {
                 double r = (*a)[j];
                 data[j] = r * c;
             }
-            tempData[i] = new Vector(size, data);
+            tempData[i] = new Vector(rowSize, data);
         }
-        return new Matrix(size, size, tempData);
+        return new Matrix(rowSize,colsSize , tempData);
     }
 }
 
 Vector *multi(const Vector *a, const Matrix *b) {
     if (b->getRows() != a->getSize() || !a->isTrans()) {
+        std::cout << "Wrong sizes in multi function between vector and matrix" << std::endl;
         return nullptr;
     }
     const unsigned int size = b->getCols();
@@ -101,6 +110,7 @@ double dot(const Vector *a, const Vector *b) {
 
 Vector *dot(const Matrix *a, const Vector *b) {
     if (a->getRows() != b->getSize()) {
+        std::cout << "Wrong sizes in dot function with matrix and vector" << std::endl;
         return nullptr;
     }
     const int size =a->getCols();
@@ -123,4 +133,17 @@ int argMax(const Vector *v) {
         }
     }
     return index;
+}
+
+Vector *softMax(const Vector *x) {
+    double sum = 0;
+    unsigned int size = x->getSize();
+    for (int i = 0; i < size; i++) {
+        sum += exp((*x)[i]);
+    }
+    double *output = new double[size];
+    for (int i = 0; i < size; i++) {
+        output[i] = exp((*x)[i]) / sum;
+    }
+    return new Vector(size, output);
 }

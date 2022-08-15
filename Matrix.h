@@ -16,30 +16,33 @@ class Matrix {
 
     unsigned int rows;
     unsigned int cols;
-    Vector **data;
+    shared_ptr<shared_ptr<Vector*>> data;
 
 public:
     Matrix() {
         this->rows = 0;
         this->cols = 0;
+        std::cout<<"Non Exisit Matrix! stop"<<std::endl;
+        exit(-1);
         this->data = nullptr;
     }
 
     Matrix(const Matrix *pMatrix) {
         this->rows = pMatrix->rows;
         this->cols = pMatrix->cols;
-        this->data = new Vector *[this->cols];
+        this->data = make_shared<shared_ptr<Vector*>>(new Vector *[this->cols]);
         for (int i = 0; i < this->cols; i++) {
-            this->data[i] = (*pMatrix)[i];
+            (*(*this->data))[i]=(*(*pMatrix->data))[i];
         }
     }
 
     Matrix(unsigned int rows, unsigned int cols) {
         this->rows = rows;
         this->cols = cols;
-        this->data = new Vector *[cols];
+        this->data = make_shared<shared_ptr<Vector*>>(new Vector *[this->cols]);
         for (int i = 0; i < cols; i++) {
-            this->data[i] = new Vector(rows);
+            this->data[i]=shared_ptr<Vector*>(new Vector(rows));
+
         }
     }
 
@@ -47,8 +50,17 @@ public:
         this->rows = rows;
         this->cols = cols;
         this->data = new Vector *[cols];
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < cols; i++) {
             this->data[i] = new Vector(data[i]);
+        }
+    }
+
+    Matrix(const Matrix &old) {
+        this->rows = old.rows;
+        this->cols = old.cols;
+        this->data = new Vector *[this->cols];
+        for (int i = 0; i < this->cols; i++) {
+            this->data[i] = new Vector(old.data[i]);
         }
     }
 
@@ -103,6 +115,7 @@ public:
 
     Matrix *operator+(Matrix *b) const {
         if (b->rows != this->rows || b->cols != this->cols) {
+            std::cout << "Wrong sizes in + operator in Matrix class" << std::endl;
             return nullptr;
         }
         auto tempData = new Vector *[this->cols];
@@ -111,11 +124,15 @@ public:
             auto bV = new Vector(b->data[i]);
             tempData[i] = *aV + bV;
         }
+        //std::shared_ptr<int> foo = std::make_shared<int> (10);
+        //return std::make_shared<Matrix*> (new Matrixthis->rows, this->cols, tempData);
         return new Matrix(this->rows, this->cols, tempData);
     }
 
     Matrix *operator*(const Matrix *b) const {
         if (this->cols != b->rows) {
+            std::cout << "Wrong sizes in * operator in Matrix class with matrix" << std::endl;
+
             return nullptr;
         }
         Vector **tempData = new Vector *[b->cols];
@@ -146,6 +163,7 @@ public:
 
     Vector *operator*(const Vector *b) const {
         if (this->cols != b->getSize() && !b->isTrans()) {
+            std::cout << "Wrong sizes in * operator in Matrix class with vector" << std::endl;
             return nullptr;
         }
         auto *pDouble = new double[this->rows];
@@ -181,6 +199,23 @@ public:
         return new Matrix(this->rows, this->cols, pVector);
     }
 
+    Matrix *transpose() {
+        double **pDouble = new double *[this->rows];
+        for (int i = 0; i < this->rows; i++) {
+            pDouble[i] = new double[this->cols];
+        }
+        for (int i = 0; i < this->cols; i++) {
+            auto v = this->data[i];
+            for (int j = 0; j < this->rows; j++) {
+                pDouble[j][i] = (*v)[j];
+            }
+        }
+        Vector **pVector = new Vector *[this->rows];
+        for (int i = 0; i < this->rows; i++) {
+            pVector[i] = new Vector(this->cols, pDouble[i]);
+        }
+        return new Matrix(this->cols, this->rows, pVector);
+    }
 
     ~Matrix() {
         for (int i = 0; i < this->rows; i++) {

@@ -1,10 +1,13 @@
 #include <iostream>
-#include <fstream>
 #include <iomanip>
 #include "Matrix.h"
 #include "LiniarAlgebra.h"
 #include "vector"
 #include "ML.h"
+#include <fstream>
+#include <memory>
+#include <string>
+
 struct data_point {
     Vector *x;
     int y;
@@ -13,7 +16,8 @@ struct data_point {
         x = v;
         y = r;
     }
-    data_point(data_point* d) {
+
+    data_point(data_point *d) {
         x = new Vector(d->x);
         y = d->y;
     }
@@ -30,11 +34,13 @@ double *fromVectorToArray(vector<double> v) {
     return pInt;
 }
 
-vector<data_point*> *get_data(std::string file_path) {
-    std::ifstream file(file_path);
-    std::string line;
-    auto *data = new vector<data_point*>;
-    while (getline(file, line)) {
+vector<data_point *> *get_data(string file_path) {
+    ifstream file;
+    file.open(file_path);
+    string line;
+    auto *data = new vector<data_point *>;
+    while (!file.eof()) {
+        file >> line;
         vector<double> x;
         int y;
         string temp;
@@ -61,21 +67,47 @@ vector<data_point*> *get_data(std::string file_path) {
     return data;
 }
 
-int main() {
+void presptronCheck() {
     clock_t start = clock();
-    vector<data_point*>* data = get_data("data.txt");
+    vector<data_point *> *data = get_data("data.txt");
     srand(time(NULL));
-    Perceptron p(3,5);
-    int train=192;
-    cout<<"Start Train"<<endl;
-    p.train(new vector<data_point*>(data->begin(),data->begin()+train));
-    cout<<"Finished Train"<<endl;
-    double r=p.test(new vector<data_point*>(data->begin()+train+1,data->end()));
-    cout<<r<<endl;
+    Perceptron p(3, 5);
+    int train = 240;
+    cout << "Start Train" << endl;
+    p.train(new vector<data_point *>(data->begin(), data->begin() + train));
+    cout << "Finished Train" << endl;
+    double r = p.test(new vector<data_point *>(data->begin() + train + 1, data->end()));
+    cout << r << endl;
     clock_t end = clock();
     double time_taken = double(end - start) / double(CLOCKS_PER_SEC);
     cout << "Time taken by program is : " << fixed
-    << time_taken << setprecision(5);
+         << time_taken << setprecision(5);
     cout << " sec " << endl;
+}
+
+void NNcheck() {
+    clock_t start = clock();
+    vector<data_point *> *data = get_data("nn_data_full.txt");
+    srand(time(NULL));
+    NN nn(10, 784, 3, 100, new Sigmoid());
+    double train = 0.8;
+    int ammount = data->size() * train;
+    cout << "Start Train" << endl;
+    nn.train(new vector<data_point *>(data->begin(), data->begin() + ammount));
+    cout << "Finished Train" << endl;
+    double r = nn.test(new vector<data_point *>(data->begin() + ammount + 1, data->end()));
+    clock_t end = clock();
+    double time_taken = double(end - start) / double(CLOCKS_PER_SEC);
+    cout << "Time taken by program is : " << fixed
+         << time_taken << setprecision(5);
+    cout << " sec " << endl;
+
+}
+
+int main() {
+    //NNcheck();
+    //presptronCheck();
+    shared_ptr<Matrix*> start = std::make_shared<Matrix*>(new Matrix(5,5));
+    cout<<*start<<endl;
     return 0;
 }
