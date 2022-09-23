@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="MLCPP"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="msvc8"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="C:/Users/Tomer/Projects/C++/MLCPP/cmake-build-debug-visual-studio"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\Tomer\Projects\C++\MLCPP\cmake-build-debug-visual-studio\Makefile VERBOSE=1 all"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\Tomer\Projects\C++\MLCPP\cmake-build-debug-visual-studio\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\Tomer\Projects\C++\MLCPP\cmake-build-debug-visual-studio\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\Tomer\Projects\C++\MLCPP\cmake-build-debug-visual-studio\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="C:/Users/Tomer/Projects/C++/MLCPP/cmake-build-debug-visual-studio"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\Tomer\Projects\C++\MLCPP\cmake-build-debug-visual-studio\Makefile VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\Tomer\Projects\C++\MLCPP\cmake-build-debug-visual-studio\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\Tomer\Projects\C++\MLCPP\cmake-build-debug-visual-studio\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\Tomer\Projects\C++\MLCPP\cmake-build-debug-visual-studio\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="NN">
+				<Option output="C:/Users/Tomer/Projects/C++/MLCPP/cmake-build-debug-visual-studio/NN.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Tomer/Projects/C++/MLCPP/cmake-build-debug-visual-studio"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\ATLMFC\include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\VS\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.19041.0\\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.19041.0\\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.19041.0\\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.19041.0\\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\Tomer\Projects\C++\MLCPP\cmake-build-debug-visual-studio\Makefile VERBOSE=1 NN"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\Tomer\Projects\C++\MLCPP\cmake-build-debug-visual-studio\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\Tomer\Projects\C++\MLCPP\cmake-build-debug-visual-studio\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\Tomer\Projects\C++\MLCPP\cmake-build-debug-visual-studio\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="NN/fast">
+				<Option output="C:/Users/Tomer/Projects/C++/MLCPP/cmake-build-debug-visual-studio/NN.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Tomer/Projects/C++/MLCPP/cmake-build-debug-visual-studio"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\ATLMFC\include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\VS\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.19041.0\\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.19041.0\\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.19041.0\\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.19041.0\\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\Tomer\Projects\C++\MLCPP\cmake-build-debug-visual-studio\Makefile VERBOSE=1 NN/fast"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\Tomer\Projects\C++\MLCPP\cmake-build-debug-visual-studio\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\Tomer\Projects\C++\MLCPP\cmake-build-debug-visual-studio\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\Tomer\Projects\C++\MLCPP\cmake-build-debug-visual-studio\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="C:/Users/Tomer/Projects/C++/MLCPP/cmake-build-debug-visual-studio"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\Tomer\Projects\C++\MLCPP\cmake-build-debug-visual-studio\Makefile VERBOSE=1 edit_cache"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\Tomer\Projects\C++\MLCPP\cmake-build-debug-visual-studio\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\Tomer\Projects\C++\MLCPP\cmake-build-debug-visual-studio\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\Tomer\Projects\C++\MLCPP\cmake-build-debug-visual-studio\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="C:/Users/Tomer/Projects/C++/MLCPP/Activation Functions.cpp">
+			<Option target="NN"/>
+		</Unit>
+		<Unit filename="C:/Users/Tomer/Projects/C++/MLCPP/Activation Functions.h">
+			<Option target="NN"/>
+		</Unit>
+		<Unit filename="C:/Users/Tomer/Projects/C++/MLCPP/LiniarAlgebra.cpp">
+			<Option target="NN"/>
+		</Unit>
+		<Unit filename="C:/Users/Tomer/Projects/C++/MLCPP/LiniarAlgebra.h">
+			<Option target="NN"/>
+		</Unit>
+		<Unit filename="C:/Users/Tomer/Projects/C++/MLCPP/ML.cpp">
+			<Option target="NN"/>
+		</Unit>
+		<Unit filename="C:/Users/Tomer/Projects/C++/MLCPP/ML.h">
+			<Option target="NN"/>
+		</Unit>
+		<Unit filename="C:/Users/Tomer/Projects/C++/MLCPP/Matrix.h">
+			<Option target="NN"/>
+		</Unit>
+		<Unit filename="C:/Users/Tomer/Projects/C++/MLCPP/Vector.h">
+			<Option target="NN"/>
+		</Unit>
+		<Unit filename="C:/Users/Tomer/Projects/C++/MLCPP/main.cpp">
+			<Option target="NN"/>
+		</Unit>
+		<Unit filename="C:/Users/Tomer/Projects/C++/MLCPP/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

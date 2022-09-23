@@ -1,0 +1,60 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/Tomer/Projects/C++/MLCPP/Activation Functions.h
+Vector.h
+C:/Users/Tomer/Projects/C++/MLCPP/Vector.h
+
+C:/Users/Tomer/Projects/C++/MLCPP/LiniarAlgebra.h
+Vector.h
+C:/Users/Tomer/Projects/C++/MLCPP/Vector.h
+Matrix.h
+C:/Users/Tomer/Projects/C++/MLCPP/Matrix.h
+vector
+C:/Users/Tomer/Projects/C++/MLCPP/vector
+algorithm
+-
+Matrix.h
+C:/Users/Tomer/Projects/C++/MLCPP/Matrix.h
+Vector.h
+C:/Users/Tomer/Projects/C++/MLCPP/Vector.h
+
+C:/Users/Tomer/Projects/C++/MLCPP/ML.cpp
+iostream
+-
+ML.h
+C:/Users/Tomer/Projects/C++/MLCPP/ML.h
+
+C:/Users/Tomer/Projects/C++/MLCPP/ML.h
+Vector.h
+C:/Users/Tomer/Projects/C++/MLCPP/Vector.h
+vector
+C:/Users/Tomer/Projects/C++/MLCPP/vector
+LiniarAlgebra.h
+C:/Users/Tomer/Projects/C++/MLCPP/LiniarAlgebra.h
+Activation Functions.h
+C:/Users/Tomer/Projects/C++/MLCPP/Activation Functions.h
+
+C:/Users/Tomer/Projects/C++/MLCPP/Matrix.h
+ostream
+-
+Vector.h
+C:/Users/Tomer/Projects/C++/MLCPP/Vector.h
+vector
+-
+
+C:/Users/Tomer/Projects/C++/MLCPP/Vector.h
+ostream
+-
+iostream
+-
+vector
+-
+memory
+C:/Users/Tomer/Projects/C++/MLCPP/memory
+
