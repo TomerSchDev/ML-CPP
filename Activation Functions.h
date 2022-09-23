@@ -9,16 +9,16 @@
 
 class ActivityFunction {
 public:
-    virtual Vector *activate(const Vector *x) const = 0;
+    virtual Vector activate(const Vector& x) const = 0;
 
-    virtual Vector *deActive(const Vector *dx) const = 0;
+    virtual Vector deActive(const Vector& dx) const = 0;
 };
 
 class Sigmoid : public ActivityFunction {
 public:
-    Vector *activate(const Vector *x) const override;
+    Vector activate(const Vector& x) const override;
 
-    Vector *deActive(const Vector *dx) const override;
+    Vector deActive(const Vector& dx) const override;
 };
 
 #endif //MLCPP_ACTIVATION_FUNCTIONS_H

@@ -1,25 +1,25 @@
 #include <iostream>
+#include <fstream>
 #include <iomanip>
 #include "Matrix.h"
 #include "LiniarAlgebra.h"
 #include "vector"
 #include "ML.h"
-#include <fstream>
-#include <memory>
 #include <string>
+#include "map"
 
 struct data_point {
-    Vector *x;
+    Vector x;
     int y;
 
-    data_point(Vector *v, int r) {
-        x = v;
+    data_point(const Vector &v, int r) {
+        x = Vector(v);
         y = r;
     }
 
-    data_point(data_point *d) {
-        x = new Vector(d->x);
-        y = d->y;
+    data_point(const data_point &d) {
+        x = Vector(d.x);
+        y = d.y;
     }
 };
 using namespace std;
@@ -27,21 +27,18 @@ using namespace std;
 
 
 double *fromVectorToArray(vector<double> v) {
-    double *pInt = new double[v.size()];
+    auto *pInt = new double[v.size()];
     for (int i = 0; i < v.size(); i++) {
         pInt[i] = v[i];
     }
     return pInt;
 }
 
-vector<data_point *> *get_data(string file_path) {
-    ifstream file;
-    file.open(file_path);
-    string line;
-    auto *data = new vector<data_point *>;
-    while (!file.eof()) {
-        file >> line;
-        vector<double> x;
+vector<data_point *> get_data(vector<double> x,std::string file_path) {
+    std::ifstream file(file_path);
+    std::string line;
+    vector<data_point *> data;
+    while (getline(file, line)) {
         int y;
         string temp;
         for (char c : line) {
@@ -59,55 +56,41 @@ vector<data_point *> *get_data(string file_path) {
                     break;
             }
         }
-        auto *v = new Vector(x.size(), fromVectorToArray(x));
-        auto dataPoint = new data_point(v, y);
-        data->push_back(dataPoint);
+        data.push_back(new data_point(Vector(x.size(), vector<double>(x)), y));
+        x.clear();
     }
     file.close();
     return data;
 }
 
-void presptronCheck() {
+int main(int argc, char **argv) {
+    vector<double> x;
+    map<string, string> machineData;
+    map<string, AbstractMachine *> machines;
+    machineData["Perceptron"] = "data.txt";
+    machineData["NN"] = "nn_data.txt";
+    machines["Perceptron"] = new Perceptron(3, 5);
+    Sigmoid s{};
+    machines["NN"] = new NN(10, 784, 3, 160, s);
     clock_t start = clock();
-    vector<data_point *> *data = get_data("data.txt");
+    if (argc < 2) {
+        return -1;
+    }
+    string type = argv[1];
+    vector<data_point *> data = shuffleData(get_data(x,machineData[type]));
     srand(time(NULL));
-    Perceptron p(3, 5);
-    int train = 240;
+    auto m = machines[type];
+    int train = 0.8 * data.size();
     cout << "Start Train" << endl;
-    p.train(new vector<data_point *>(data->begin(), data->begin() + train));
+    m->train(vector<data_point *>(data.begin(), data.begin() + train));
     cout << "Finished Train" << endl;
-    double r = p.test(new vector<data_point *>(data->begin() + train + 1, data->end()));
+    double r = m->test(vector<data_point *>(data.begin() + train + 1, data.end()));
     cout << r << endl;
     clock_t end = clock();
     double time_taken = double(end - start) / double(CLOCKS_PER_SEC);
     cout << "Time taken by program is : " << fixed
          << time_taken << setprecision(5);
     cout << " sec " << endl;
-}
-
-void NNcheck() {
-    clock_t start = clock();
-    vector<data_point *> *data = get_data("nn_data_full.txt");
-    srand(time(NULL));
-    NN nn(10, 784, 3, 100, new Sigmoid());
-    double train = 0.8;
-    int ammount = data->size() * train;
-    cout << "Start Train" << endl;
-    nn.train(new vector<data_point *>(data->begin(), data->begin() + ammount));
-    cout << "Finished Train" << endl;
-    double r = nn.test(new vector<data_point *>(data->begin() + ammount + 1, data->end()));
-    clock_t end = clock();
-    double time_taken = double(end - start) / double(CLOCKS_PER_SEC);
-    cout << "Time taken by program is : " << fixed
-         << time_taken << setprecision(5);
-    cout << " sec " << endl;
-
-}
-
-int main() {
-    //NNcheck();
-    //presptronCheck();
-    shared_ptr<Matrix*> start = std::make_shared<Matrix*>(new Matrix(5,5));
-    cout<<*start<<endl;
     return 0;
+
 }

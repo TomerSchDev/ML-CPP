@@ -19,114 +19,126 @@ struct data_point {
         y = r;
     }
 
-    data_point(data_point *d) {
-        x = new Vector(d->x);
-        y = d->y;
+    data_point(const data_point &d) {
+        x = d.x;
+        y = d.y;
     }
 };
 
-vector<data_point *> *shuffleData(const vector<data_point *> *v) {
-    auto *shuffled = new vector<data_point *>;
-    for (auto i : *v) {
-        auto d = new data_point(i);
-        shuffled->push_back(d);
-    }
-    shuffle(shuffled->begin(), shuffled->end(), random_device());
+vector<data_point *> shuffleData(const vector<data_point *> &v) {
+    vector<data_point *> shuffled(v.begin(), v.end());
+    shuffle(shuffled.begin(), shuffled.end(), random_device());
     return shuffled;
 }
 
-Matrix *multi(const Vector *a, const Vector *b) {
-    if (a->isTrans() == b->isTrans()) {
+Matrix vectorMultiVector(const Vector &a, const Vector &b) {
+    if (a.isTrans() == b.isTrans()) {
         std::cout << "Wrong trans in multi function between vector and vector" << std::endl;
-        return nullptr;
+        return {};
     }
-    if (a->isTrans()) {
-        if (a->getSize() != b->getSize()) {
+    if (a.isTrans()) {
+        if (a.getSize() != b.getSize()) {
             std::cout << "Wrong size in multi function between vector and vector" << std::endl;
 
         }
-        int size = a->getSize();
+        int size = a.getSize();
         //matrix 1X1
         double sum = 0;
         for (int i = 0; i < size; i++) {
-            sum += (*a)[i] * (*b)[i];
+            sum += a[i] * b[i];
         }
-        double **data = new double *[1];
-        data[0] = new double[1]{sum};
-        return new Matrix(1, 1, data);
+        vector<double> data;
+        data.push_back(sum);
+        vector<Vector> v;
+        v.push_back(Vector(1, data));
+        return {1, 1, v};
     } else {
         //matrix a.size rows X b.size cols
-        int rowSize = b->getSize();
-        int colsSize = a->getSize();
-        Vector **tempData = new Vector *[colsSize];
+        unsigned int rowSize = b.getSize();
+        unsigned int colsSize = a.getSize();
+        vector<Vector>tempData;
         for (int i = 0; i < colsSize; i++) {
-            double *data = new double[rowSize];
-            double c = (*b)[i];
+            vector<double>data;
+            double c = a[i];
             for (int j = 0; j < rowSize; j++) {
-                double r = (*a)[j];
-                data[j] = r * c;
+                data.push_back(b[j] * c);
             }
-            tempData[i] = new Vector(rowSize, data);
+            tempData.push_back(Vector(rowSize, data));
         }
-        return new Matrix(rowSize,colsSize , tempData);
+        return {rowSize, colsSize, tempData};
     }
 }
 
-Vector *multi(const Vector *a, const Matrix *b) {
-    if (b->getRows() != a->getSize() || !a->isTrans()) {
-        std::cout << "Wrong sizes in multi function between vector and matrix" << std::endl;
-        return nullptr;
+Vector multi(const Vector a, const Matrix b) {
+    if (b.getRows() != a.getSize() || !a.isTrans()) {
+        std::cout << "Wrong sizes in vectorMultiVector function between vector and matrix" << std::endl;
+        return {};
     }
-    const unsigned int size = b->getCols();
-    double *data = new double[size];
+    const unsigned int size = b.getCols();
+    vector<double> data;
     for (int i = 0; i < size; i++) {
-        Vector *col = (*b)[i];
+        Vector col = b[i];
         double sum = 0;
-        for (int j = 0; j < a->getSize(); j++) {
-            double r = (*a)[j];
-            double c = (*col)[j];
+        for (int j = 0; j < a.getSize(); j++) {
+            double r = a[j];
+            double c = col[j];
             sum += r * c;
         }
-        data[i] = sum;
+        data.push_back(sum);
     }
-    return new Vector(size, data, true);
+    return {size, data, true};
 }
 
-double dot(const Vector *a, const Vector *b) {
-    if (a->getSize() != b->getSize()) {
+double dot(const Vector &a, const Vector &b) {
+    if (a.getSize() != b.getSize()) {
         return -1;
     }
     double sum = 0;
-    const unsigned int size = a->getSize();
+    const unsigned int size = a.getSize();
     for (int i = 0; i < size; i++) {
-
-        double aI = (*a)[i];
-        double bI = (*b)[i];
-        sum += aI * bI;
+        sum += a[i] * b[i];
 
     }
     return sum;
 }
 
-Vector *dot(const Matrix *a, const Vector *b) {
-    if (a->getRows() != b->getSize()) {
+Vector dot(const Matrix &a, const Vector &b) {
+    if (a.getRows() != b.getSize()) {
         std::cout << "Wrong sizes in dot function with matrix and vector" << std::endl;
-        return nullptr;
+        return {};
     }
-    const int size =a->getCols();
-    double *tempData = new double[size];
+    const unsigned int size = a.getCols();
+    vector<double> tempData;
     for (int i = 0; i < size; i++) {
-        auto col = (*a)[i];
-        tempData[i] = dot(col, b);
+        Vector v = a[i];
+        tempData.push_back(dot(v, b));
     }
-    return new Vector(size,tempData);
+    return {size, tempData};
 }
 
-int argMax(const Vector *v) {
-    double max = (*v)[0];
+Vector dot(const Matrix &a, const Vector &b, bool print) {
+    if (a.getRows() != b.getSize()) {
+        return {};
+    }
+    const unsigned int size = a.getCols();
+    vector<double> tempData;
+    for (int i = 0; i < size; i++) {
+    }
+    for (int i = 0; i < size; i++) {
+        auto col = a[i];
+        if (print) {
+            cout << col << endl;
+        }
+        tempData.push_back(dot(col, b));
+    }
+    return {size, tempData};
+}
+
+int argMax(const Vector &v) {
+    double max = v[0];
     int index = 0;
-    for (int i = 1; i < v->getSize(); i++) {
-        double temp = (*v)[i];
+    for (int i = 1; i < v.getSize(); i++) {
+        double temp = v[i];
         if (temp > max) {
             max = temp;
             index = i;
@@ -135,15 +147,15 @@ int argMax(const Vector *v) {
     return index;
 }
 
-Vector *softMax(const Vector *x) {
+Vector softMax(const Vector &x) {
     double sum = 0;
-    unsigned int size = x->getSize();
+    unsigned int size = x.getSize();
     for (int i = 0; i < size; i++) {
-        sum += exp((*x)[i]);
+        sum += exp(x[i]);
     }
-    double *output = new double[size];
+    vector<double> output;
     for (int i = 0; i < size; i++) {
-        output[i] = exp((*x)[i]) / sum;
+        output.push_back(exp(x[i]) / sum);
     }
-    return new Vector(size, output);
+    return {size, output};
 }

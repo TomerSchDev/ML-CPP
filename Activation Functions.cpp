@@ -5,21 +5,21 @@
 #include <cmath>
 #include "Activation Functions.h"
 
-Vector *Sigmoid::activate(const Vector *x) const{
-    auto *output = new double[x->getSize()];
-    for (int i = 0; i < x->getSize(); i++) {
-        output[i] = 1 / (1 + exp((*x)[i]));
+Vector Sigmoid::activate(const Vector &x) const {
+    vector<double> output;
+    for (int i = 0; i < x.getSize(); i++) {
+        output.push_back(1 / (1 + exp(x[i])));
     }
-    return new Vector(x->getSize(), output);
+    return {x.getSize(), output};
 }
 
-Vector *Sigmoid::deActive(const Vector *dx) const{
-    const Vector *res = activate(dx);
-    unsigned int size = res->getSize();
-    auto *output = new double[size];
+Vector Sigmoid::deActive(const Vector &dx) const {
+    const Vector res = activate(dx);
+    unsigned int size = res.getSize();
+    vector<double> output;
     for (int i = 0; i < size; i++) {
         //(1 - res) * res
-        output[i] = (1 - (*res)[i]) * (*res)[i];
+        output.push_back( (1 - res[i]) * res[i]);
     }
-    return new Vector(size, output);
+    return {size, output};
 }
